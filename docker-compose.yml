@@ -1,0 +1,30 @@
+version: "3.2"
+services:
+  php:
+    build: './docker/php/'
+    networks:
+      - backend
+    volumes:
+      - ./docker/php/public_html/:/var/www/html/
+  apache:
+    build: './docker/apache/'
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "9000:80"
+    volumes:
+      - ./docker/php/public_html/:/var/www/html/
+  mysql:
+    build: './docker/mysql'
+    networks:
+      - backend
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
+networks:
+  frontend:
+  backend:
