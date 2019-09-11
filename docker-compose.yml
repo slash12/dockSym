@@ -5,8 +5,9 @@ services:
     networks:
       - backend
     volumes:
-      - ./public_html/:/var/www/html/
-      - './docker/apache/demo.apache.conf:/usr/local/apache2/conf/demo.apache.conf'
+      - ./docker/php/symfony/:/var/www/html/symfony/
+      - ./docker/php/vue/:/var/www/html/vue/
+      # - './docker/apache/demo.apache.conf:/usr/local/apache2/conf/demo.apache.conf'
   apache:
     build: './docker/apache/'
     depends_on:
@@ -17,16 +18,17 @@ services:
       - frontend
       - backend
     ports:
-      - "8080:80"
+      - "8085:80"
     volumes:
-      - ./public_html/:/var/www/html/
+      - ./docker/php/symfony/:/var/www/html/symfony/
+      - ./docker/php/vue/:/var/www/html/vue/
   mysql:
     image: mysql:5.7
+    hostname: mysql
     networks:
       - backend
     environment:
-      - MYSQL_ROOT_PASSWORD: 'root'
-      - MYSQL_ROOT_HOST: 'mysql'
+      MYSQL_ROOT_PASSWORD: 'root'
 networks:
   frontend:
   backend:
