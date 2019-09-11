@@ -6,6 +6,7 @@ services:
       - backend
     volumes:
       - ./public_html/:/var/www/html/
+      - './docker/apache/demo.apache.conf:/usr/local/apache2/conf/demo.apache.conf'
   apache:
     build: './docker/apache/'
     depends_on:
@@ -20,14 +21,12 @@ services:
     volumes:
       - ./public_html/:/var/www/html/
   mysql:
-    image: mysql:5.6
+    image: mysql:5.7
     networks:
       - backend
     environment:
-      MYSQL_ROOT_PASSWORD: 'pass'
-      # MYSQL_DATABASE: 'db'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
+      - MYSQL_ROOT_PASSWORD: 'root'
+      - MYSQL_ROOT_HOST: 'mysql'
 networks:
   frontend:
   backend:
