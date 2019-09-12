@@ -7,8 +7,8 @@ services:
     volumes:
       - ./docker/php/symfony/:/var/www/html/symfony/
       - ./docker/php/vue/:/var/www/html/vue/
-      # - './docker/apache/demo.apache.conf:/usr/local/apache2/conf/demo.apache.conf'
-  apache:
+      # - ./docker/apache/demo.apache.conf:/usr/local/apache2/conf/demo.apache.conf
+  apachesymfony:
     build: './docker/apache/'
     depends_on:
       - php
@@ -21,6 +21,18 @@ services:
       - "8085:80"
     volumes:
       - ./docker/php/symfony/:/var/www/html/symfony/
+  apachevue:
+    build: './docker/apache/'
+    depends_on:
+      - php
+    links:
+      - mysql      
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "8086:80"
+    volumes:      
       - ./docker/php/vue/:/var/www/html/vue/
   mysql:
     image: mysql:5.7

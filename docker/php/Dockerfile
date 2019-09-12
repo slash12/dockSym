@@ -19,3 +19,9 @@ WORKDIR /var/www/html/symfony/
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 COPY ./symfony/ /var/www/html/symfony/
 RUN composer install
+
+WORKDIR /var/www/html/vue/
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+RUN apt-get install nodejs -y
+COPY ./vue/ /var/www/html/vue/
+RUN npm install
